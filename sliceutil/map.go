@@ -1,10 +1,11 @@
 package sliceutil
 
-func Map[T any, U any](f func(T) U, xs []T) []U {
-	ret := make([]U, len(xs));
+// Map applies function f over each element of slice xs, and returns the result.
+func Map[T any, U any](xs []T, f func(T) U) []U {
+	ret := make([]U, len(xs))
 
 	for i, x := range xs {
-		ret[i]= f(x)
+		ret[i] = f(x)
 	}
 
 	return ret
