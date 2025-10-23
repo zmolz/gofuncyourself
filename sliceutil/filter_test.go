@@ -228,3 +228,43 @@ func TestPartitionString(t *testing.T) {
 		})
 	}
 }
+
+func TestGroupBy(t *testing.T) {
+	t.Run("group_by_first_letter", func(t *testing.T) {
+		firstByte := func(s string) byte {
+			return s[0]
+		}
+
+		xs := []string{"ale", "armor", "bobcat", "cat", "christmas"}
+
+		got := sliceutil.GroupBy(xs, firstByte)
+		want := map[byte][]string{
+			'a': {"ale", "armor"},
+			'b': {"bobcat"},
+			'c': {"cat", "christmas"},
+		}
+
+		if len(got) != len(want) {
+			t.Fatalf("GroupBy length mismatch: got %v, want %v", got, want)
+		}
+
+		for key, wantVals := range want {
+			gotVals, ok := got[key]
+			if !ok {
+				t.Errorf("GroupBy missing key %q", key)
+				continue
+			}
+
+			if len(gotVals) != len(wantVals) {
+				t.Errorf("GroupBy[%q] length = %d, want %d", key, len(gotVals), len(wantVals))
+				continue
+			}
+
+			for i := range wantVals {
+				if gotVals[i] != wantVals[i] {
+					t.Errorf("GroupBy[%q][%d] = %v, want %v", key, i, gotVals[i], wantVals[i])
+				}
+			}
+		}
+	})
+}

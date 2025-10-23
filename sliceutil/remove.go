@@ -1,8 +1,9 @@
 package sliceutil
 
-import "errors"
+import (
+	"slices"
+)
 
-var ErrIndexOutOfRange = errors.New("index out of range")
 // Remove removes the element at index i from slice xs.
 func Remove[T any](xs []T, i int) ([]T, error) {
 	if i < 0 || i >= len(xs) {
@@ -42,3 +43,20 @@ func RemoveLast[T any](xs []T) ([]T, error) {
 	return xs, err
 }
 
+// RemoveIndices takes a slice of ints indices and removes the associated elements in slice xs
+func RemoveIndices[T any](xs []T, indices []int) ([]T, error) {
+	var err error
+
+	// Sort descending to remove from the back first
+	slices.Sort(indices)
+	slices.Reverse(indices)
+
+	for _, i := range indices {
+		xs, err = RemoveUnordered(xs, i)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return xs, nil
+}
