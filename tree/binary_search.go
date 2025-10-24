@@ -2,7 +2,7 @@ package tree
 
 import "cmp"
 
-// BST represents the binary search tree
+// BST represents a binary search tree
 type BST[K cmp.Ordered, V any] struct {
 	Root *Node[K, V]
 }
