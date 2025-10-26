@@ -1,4 +1,4 @@
-``` go
+```go
 type Iterator[T any] interface {
 	Next() (T, bool)
 	HasNext() bool
@@ -6,8 +6,9 @@ type Iterator[T any] interface {
 
 func Exhaust[T any](it Iterator[T]) []T
 
-type FilterIterator[T any] struct
-type MapIterator[T, U any] struct
+type FilterIterator[T any] struct {}
+type MapIterator[T, U any] struct {}
 
-type NumRange[T Num] struct
+type SliceIterator[T any] struct {}
+type RangeIterator[T Num] struct {}
 ```

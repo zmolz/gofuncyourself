@@ -8,7 +8,7 @@ import (
 
 func TestNumRange(t *testing.T) {
 	t.Run("test_1_11_2", func(t *testing.T) {
-		rng, err := iterator.NewNumRange(1, 11, 2)
+		rng, err := iterator.NewRangeIterator(1, 11, 2)
 
 		if err != nil {
 			t.Fatalf("Error Creating Iterator")
@@ -28,7 +28,7 @@ func TestNumRange(t *testing.T) {
 	})
 
 	t.Run("test_wrong_dir", func(t *testing.T) {
-		rng, err := iterator.NewNumRange(11, 0, 2)
+		rng, err := iterator.NewRangeIterator(11, 0, 2)
 
 		if err != nil {
 			t.Fatalf("Error Creating Iterator")
@@ -43,7 +43,7 @@ func TestNumRange(t *testing.T) {
 	})
 
 	t.Run("test_neg_dir", func(t *testing.T) {
-		rng, err := iterator.NewNumRange(11, 0, -2)
+		rng, err := iterator.NewRangeIterator(11, 0, -2)
 
 		if err != nil {
 			t.Fatalf("Error Creating Iterator")

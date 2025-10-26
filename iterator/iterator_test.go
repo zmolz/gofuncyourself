@@ -8,7 +8,7 @@ import (
 
 func TestPipeline(t *testing.T) {
 	t.Run("chained_pipeline_exhaust", func(t *testing.T) {
-		r, _ := iterator.NewNumRange(1, 11, 1) // 1..10
+		r, _ := iterator.NewRangeIterator(1, 11, 1) // 1..10
 
 		// Step 1 → Step 2: Filter even numbers
 		even := iterator.NewFilterIterator(r, func(x int) bool { return x%2 == 0 })
@@ -40,7 +40,7 @@ func TestPipeline(t *testing.T) {
 	})
 
 	t.Run("chained_pipeline_next", func(t *testing.T) {
-		r, _ := iterator.NewNumRange(1, 11, 1) // 1..10
+		r, _ := iterator.NewRangeIterator(1, 11, 1) // 1..10
 
 		// Step 1 → Step 2: Filter even numbers
 		even := iterator.NewFilterIterator(r, func(x int) bool { return x%2 == 0 })

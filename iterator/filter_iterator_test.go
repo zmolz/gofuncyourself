@@ -8,7 +8,7 @@ import (
 
 func TestFilter(t *testing.T) {
 	t.Run("even_numbers_1_10", func(t *testing.T) {
-		r, _ := iterator.NewNumRange(1, 11, 1) // 1..10
+		r, _ := iterator.NewRangeIterator(1, 11, 1) // 1..10
 
 		isEven := func(i int) bool { return i%2 == 0 }
 
@@ -28,7 +28,7 @@ func TestFilter(t *testing.T) {
 	})
 
 	t.Run("greater_than_5", func(t *testing.T) {
-		r, _ := iterator.NewNumRange(1, 11, 1) // 1..10
+		r, _ := iterator.NewRangeIterator(1, 11, 1) // 1..10
 
 		gt5 := func(i int) bool { return i > 5 }
 
@@ -48,7 +48,7 @@ func TestFilter(t *testing.T) {
 	})
 
 	t.Run("no_matches", func(t *testing.T) {
-		r, _ := iterator.NewNumRange(1, 5, 1) // 1..4
+		r, _ := iterator.NewRangeIterator(1, 5, 1) // 1..4
 
 		never := func(i int) bool { return false }
 

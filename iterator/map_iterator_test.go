@@ -8,7 +8,7 @@ import (
 
 func TestMap(t *testing.T) {
 	t.Run("square_num_range_1_5_1", func(t *testing.T) {
-		r, _ := iterator.NewNumRange(1, 6, 1)
+		r, _ := iterator.NewRangeIterator(1, 6, 1)
 
 		square := func(i int) int { return i * i }
 
@@ -24,11 +24,10 @@ func TestMap(t *testing.T) {
 				t.Errorf("Exhaust()[%d] = %v, want %v", i, got[i], want[i])
 			}
 		}
-
 	})
 
 	t.Run("id_num_range_1_5_1", func(t *testing.T) {
-		r, _ := iterator.NewNumRange(5, 0, -1)
+		r, _ := iterator.NewRangeIterator(5, 0, -1)
 
 		id := func(i int) int { return i }
 
@@ -44,6 +43,5 @@ func TestMap(t *testing.T) {
 				t.Errorf("Exhaust()[%d] = %v, want %v", i, got[i], want[i])
 			}
 		}
-
 	})
 }

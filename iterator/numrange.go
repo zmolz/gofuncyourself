@@ -8,7 +8,7 @@ type Num interface {
 		~float32 | ~float64
 }
 
-type NumRange[T Num] struct {
+type RangeIterator[T Num] struct {
 	end  T
 	curr T
 	step T
@@ -20,20 +20,20 @@ type NumRange[T Num] struct {
 
 var ErrZeroStep = fmt.Errorf("step cannot be zero")
 
-// NewNumRange creates a new numeric range iterator
-func NewNumRange[T Num](start, end, step T) (*NumRange[T], error) {
+// NewRangeIterator creates a new numeric range iterator
+func NewRangeIterator[T Num](start, end, step T) (*RangeIterator[T], error) {
 	if step == 0 {
 		return nil, ErrZeroStep
 	}
 
-	return &NumRange[T]{
+	return &RangeIterator[T]{
 		end:  end,
 		curr: start - step, // first call to Next() gives start
 		step: step,
 	}, nil
 }
 
-func (n *NumRange[T]) HasNext() bool {
+func (n *RangeIterator[T]) HasNext() bool {
 	next := n.curr + n.step
 	if n.step > n.zero {
 		return next < n.end
@@ -41,7 +41,7 @@ func (n *NumRange[T]) HasNext() bool {
 	return next > n.end
 }
 
-func (n *NumRange[T]) Next() (T, bool) {
+func (n *RangeIterator[T]) Next() (T, bool) {
 	if !n.HasNext() {
 		return n.zero, false
 	}
