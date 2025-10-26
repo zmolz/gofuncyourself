@@ -224,3 +224,54 @@ func TestSize(t *testing.T) {
 		t.Fatalf("Expected size=2 after delete, got %d", tree.Size())
 	}
 }
+
+func TestTreeRange(t *testing.T) {
+	tree := &tree.BST[int, string]{}
+
+	// Insert nodes
+	nodes := []struct {
+		k int
+		v string
+	}{
+		{5, "five"},
+		{3, "three"},
+		{7, "seven"},
+		{2, "two"},
+		{4, "four"},
+		{6, "six"},
+		{8, "eight"},
+	}
+
+	for _, n := range nodes {
+		tree.Insert(n.k, n.v)
+	}
+
+	tests := []struct {
+		name     string
+		l, r     int
+		expected []string
+	}{
+		{"full range", 1, 9, []string{"two", "three", "four", "five", "six", "seven", "eight"}},
+		{"middle range", 3, 6, []string{"three", "four", "five", "six"}},
+		{"single element", 4, 4, []string{"four"}},
+		{"no elements", 9, 10, []string{}},
+		{"lower half", 2, 4, []string{"two", "three", "four"}},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := tree.Range(tt.l, tt.r)
+
+			if len(got) != len(tt.expected) {
+				t.Errorf("Range(%d, %d) = %v; want %v", tt.l, tt.r, got, tt.expected)
+				return
+			}
+
+			for i := 0; i < len(got); i++ {
+				if got[i] != tt.expected[i] {
+					t.Errorf("Range(%d, %d) element %d = %v; want %v", tt.l, tt.r, i, got[i], tt.expected[i])
+				}
+			}
+		})
+	}
+}

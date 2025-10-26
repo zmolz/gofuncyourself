@@ -30,6 +30,11 @@ func (t *BST[K, V]) Size() int {
 	return size(t.Root)
 }
 
+// Range returns all V values who's keys are between K l and r.
+func (t *BST[K, V]) Range(l, r K) []V {
+	return getWithinRange(t.Root, l, r)
+}
+
 // Max returns the key and value associated with the maximum key in the tree
 func (t *BST[K, V]) Max() (maxKey K, maxVal V, ok bool) {
 	if t.Root == nil {
@@ -48,12 +53,10 @@ func (t *BST[K, V]) Min() (minKey K, minVal V, ok bool) {
 	return minNode.Key, minNode.Value, true
 }
 
-// DebugPrint prints the tree structure sideways to the console for debugging.
+// DebugPrint prints the tree structure to the console for debugging.
 func (t *BST[K, V]) String() string {
 	if t.Root == nil {
 		return "<empty tree>"
 	}
 	return stringRepr(t.Root, 0)
 }
-
-

@@ -14,7 +14,7 @@ type Node[K cmp.Ordered, V any] struct {
 	Right *Node[K, V]
 }
 
-// insert is a recursive helper that inserts (k, v) into the subtree rooted at n
+// insert inserts (k, v) into the subtree rooted at n
 func insert[K cmp.Ordered, V any](n *Node[K, V], k K, v V) *Node[K, V] {
 	if n == nil {
 		return &Node[K, V]{Key: k, Value: v}
@@ -31,7 +31,7 @@ func insert[K cmp.Ordered, V any](n *Node[K, V], k K, v V) *Node[K, V] {
 	return n
 }
 
-// delete is a recursive helper that deletes a key k from the subtree rooted at n
+// delete deletes a key k from the subtree rooted at n
 func delete[K cmp.Ordered, V any](n *Node[K, V], k K) (*Node[K, V], bool) {
 	if n == nil {
 		return nil, false
@@ -72,7 +72,7 @@ func delete[K cmp.Ordered, V any](n *Node[K, V], k K) (*Node[K, V], bool) {
 	return n, found
 }
 
-// get is a recursive helper to retrieve the value associated with a given key
+// get retrieves the value associated with a given key in the subtree rooted at n
 func get[K cmp.Ordered, V any](n *Node[K, V], k K) (V, bool) {
 	if n == nil {
 		var zero V
@@ -89,13 +89,37 @@ func get[K cmp.Ordered, V any](n *Node[K, V], k K) (V, bool) {
 	return n.Value, true
 }
 
-// size is a recursive helper that returns the amount of nodes in the subtree rooted at n
+// size returns the amount of nodes in the subtree rooted at n
 func size[K cmp.Ordered, V any](n *Node[K, V]) int {
 	if n == nil {
 		return 0
 	}
 
 	return size(n.Left) + 1 + size(n.Right)
+}
+
+// getWithinRange returns all V values whose keys are between l and r (inclusive).
+func getWithinRange[K cmp.Ordered, V any](n *Node[K, V], l, r K) (ret []V) {
+	if n == nil {
+		return ret
+	}
+
+	// If current node's key is greater than left bound, left subtree may have valid keys
+	if n.Key > l {
+		ret = append(ret, getWithinRange(n.Left, l, r)...)
+	}
+
+	// If current node's key is within range, include its value
+	if n.Key >= l && n.Key <= r {
+		ret = append(ret, n.Value)
+	}
+
+	// If current node's key is less than right bound, right subtree may have valid keys
+	if n.Key < r {
+		ret = append(ret, getWithinRange(n.Right, l, r)...)
+	}
+
+	return ret
 }
 
 // min returns the node with the smallest key in the subtree rooted at n
