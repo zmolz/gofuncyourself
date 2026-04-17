@@ -10,6 +10,7 @@ func Reduce[T any](xs []T, f func(T, T) T) (T, error)
 func FoldRight[T, U any](xs []T, a U, f func(T, U) U) U
 
 func Map[T, U any](xs []T, f func(T) U) []U
+func MapWithErr[T, U any](xs []T, f func(T) (U, error)) ([]U, error)
 
 func Flatten[T any](xss [][]T) []T
 
